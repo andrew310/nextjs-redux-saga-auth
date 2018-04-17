@@ -1,21 +1,8 @@
-# Next.js example
-
-## How to use
-
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
-
-```bash
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/v1-beta | tar -xz --strip=2  material-ui-1-beta/examples/nextjs
-cd nextjs
-```
-
-Install it and run:
-
-```bash
-npm install
-npm run dev
-```
+# Next.js with redux-sagas, material-ui and jwt authentication using cookies
 
 ## The idea behind the example
 
-[Next.js](https://github.com/zeit/next.js) is a framework for server-rendered React apps.
+Started with material-ui-1-beta/examples/nextjs, added in redux-sagas inspired by examples such as react-boilerplate.
+I really like code-splitting with redux so I have actions/reducers/sagas/selectors for each 'entity'.
+The closest example in the nextjs examples git was the one with apollo and redux-sagas, but it still needed a few updates such as the combineLazyReducer. This allows the middleware that checks for isLoggedIn to work.
+Example taken from: https://medium.com/front-end-hacking/code-splitting-redux-reducers-4073db30c72e
