@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 // MUI imports
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { FormControl } from 'material-ui/Form';
+import { FormControl, FormHelperText } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
+import { CircularProgress } from 'material-ui/Progress';
 
 import Nav from '../components/nav';
 import withRoot from '../src/withRoot';
@@ -22,6 +23,22 @@ import { withReduxSaga } from '../lib/withReduxSaga';
 import { changeEmail, changePassword, login } from '../lib/auth/actions';
 
 const styles = theme => ({
+  buttonProgress: {
+    // color: blue[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  buttonRoot: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  buttonWrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative',
+  },
   card: {
     minWidth: 275,
     maxWidth: 450,
@@ -68,20 +85,21 @@ class Login extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { auth, classes } = this.props;
     return (
       <div>
         <div>
           <Nav />
         </div>
         <Grid container className={classes.root} align="center" justify="center" spacing={40} direction="column">
-
           {/* Begin Card */}
           <Grid item>
             <Card className={classes.card}>
               <form onSubmit={this.submitForm}>
                 <CardContent>
-                  <FormControl className={classes.margin}>
+                  <FormControl className={classes.margin} aria-describedby="login-helper-text">
+                    <FormHelperText error id="login-helper-text">{auth.error}</FormHelperText>
+                    <br />
                     <Grid container spacing={8} alignItems="flex-end">
                       <Grid item>
                         <AccountCircle />
@@ -114,7 +132,18 @@ class Login extends React.Component {
                   </FormControl>
                 </CardContent>
                 <CardActions>
-                  <Button type="submit" color="secondary" style={{ marginLeft: 'auto' }}>Submit</Button>
+                  <Grid container spacing={8} justify="flex-end">
+                    <Grid item>
+                      <div className={classes.buttonRoot}>
+                        <div className={classes.buttonWrapper}>
+                          <Button color="secondary" disabled={auth.loggingIn} type="submit">Submit</Button>
+                          {auth.loggingIn &&
+                            <CircularProgress size={24} className={classes.buttonProgress} />
+                          }
+                        </div>
+                      </div>
+                    </Grid>
+                  </Grid>
                 </CardActions>
               </form>
             </Card>
